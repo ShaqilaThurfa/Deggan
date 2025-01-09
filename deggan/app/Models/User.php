@@ -11,11 +11,14 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
+
     public function news()
     {
         return $this->hasMany(News::class);
     }
-    
+
+
+
 
     /**
      * The attributes that are mass assignable.
@@ -57,5 +60,4 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
-    
 }
