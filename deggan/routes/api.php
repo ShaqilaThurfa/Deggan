@@ -40,4 +40,6 @@ Route::middleware(['auth:api'])->group(function () {
     Route::delete('news/{id}', [NewsController::class, 'destroy']);
 });
 
-Route::get('all-users', [SuperAdmin::class, 'index'])->middleware('isSuperAdmin');
+Route::middleware(['auth:api', 'isSuperAdmin'])->group(function () {
+    Route::get('all-user', [SuperAdmin::class, 'index']);
+});

@@ -16,9 +16,18 @@ class IsSuperAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()->role === 'super_admin') {
-            return $next($request);
+        $user = auth()->user();
+
+       
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
         }
-        return redirect('/')->with('error', 'You do not have access to this page.');
+
+        
+        if ($user->role !== 'superAdmin') {
+            return response()->json(['message' => 'Forbidden'], 403);
+        }
+
+        return $next($request);
     }
 }
