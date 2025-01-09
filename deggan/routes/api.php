@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\SuperAdmin;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,3 +39,5 @@ Route::middleware(['auth:api'])->group(function () {
     Route::put('news/{id}', [NewsController::class, 'update']);
     Route::delete('news/{id}', [NewsController::class, 'destroy']);
 });
+
+Route::get('all-users', [SuperAdmin::class, 'index'])->middleware('isSuperAdmin');
