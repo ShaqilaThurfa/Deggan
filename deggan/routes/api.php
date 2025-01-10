@@ -17,6 +17,10 @@ use App\Http\Controllers\SuperAdmin;
 |
 */
 
+Route::middleware(['cors'])->group(function(){
+    
+});
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -30,6 +34,8 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 Route::get('news', [NewsController::class, 'index']);
+
+
 
 
 Route::middleware(['auth:api'])->group(function () {
