@@ -47,6 +47,15 @@ class NewsController extends Controller
         return response()->json($news, 201);
     }
 
+    public function myposts()
+    {
+        $news = News::where('user_id', auth()->id())->get();
+        if ($news->isEmpty()) {
+            return response()->json(['message' => 'You have no posts']);
+        }
+        return response()->json($news);
+    }
+
 
     public function update(Request $request, $id)
     {

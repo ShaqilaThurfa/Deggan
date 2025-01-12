@@ -40,6 +40,7 @@ Route::get('news', [NewsController::class, 'index']);
 
 Route::middleware(['auth:api'])->group(function () {
    
+    Route::get('myposts', [NewsController::class, 'myposts']);
     Route::post('news', [NewsController::class, 'store']);
     Route::get('news/{slug}', [NewsController::class, 'show']);
     Route::put('news/{id}', [NewsController::class, 'update']);
