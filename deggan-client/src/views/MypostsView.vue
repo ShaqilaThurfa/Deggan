@@ -2,12 +2,10 @@
   <div>
     <h1>My Posts</h1>
 
-    <div class="flex justify-center items-center lg:text-3xl h-screen" v-if="loading">
-      Loading... <span className="loading loading-dots loading-md"></span>
-    </div>
+    <LoadingSpinner v-if="loading" />
 
     <p v-else-if="message">{{ message }}</p>
-    <NewsCard v-else v-for="news in data" :key="news.id" :news="post" :isMyPostsPage="true" />
+    <NewsCard v-else v-for="post in data" :key="post.id" :news="post" :isMyPostsPage="true" />
   </div>
 </template>
 
@@ -16,6 +14,8 @@ import NewsCard from '@/components/NewsCard.vue'
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
 import apiConfig from '@/config/api.config'
+import LoadingSpinner from '@/components/LoadingSpinner.vue'
+
 
 const data = ref([])
 const loading = ref(true)

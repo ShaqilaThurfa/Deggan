@@ -5,6 +5,7 @@ import LoginView from '@/views/LoginView.vue'
 import { useAuthStore } from '@/stores/auth'
 import MypostsView from '@/views/MypostsView.vue'
 import Swal from 'sweetalert2'
+import DetailPostView from '@/views/DetailPostView.vue'
 
 
 
@@ -34,6 +35,12 @@ const router = createRouter({
       name: 'login',
       component: LoginView,
       meta: { showNavbar: false, requiresAuth: false },
+    },
+    {
+      path: '/detail/:slug',
+      name: 'detail',
+      component: DetailPostView,
+      meta: { showNavbar: true, requiresAuth: false },
     },
 
   ],

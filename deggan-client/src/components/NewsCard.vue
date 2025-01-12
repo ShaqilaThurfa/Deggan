@@ -12,7 +12,7 @@
           <button class="btn btn-error">Delete</button>
         </template>
         <template v-else>
-          <button class="btn btn-primary">Read More</button>
+          <button class="btn btn-primary" @click="goToDetail(news.slug)">Read More</button>
         </template>
       </div>
     </div>
@@ -20,6 +20,8 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
+
 defineProps({
   news: {
     type: Object,
@@ -30,6 +32,12 @@ defineProps({
     default: false, 
   },
 });
+
+const router = useRouter()
+
+function goToDetail(slug) {
+  router.push({ name: 'detail', params: { slug } });
+}
 
 const defaultImage = 'https://coffective.com/wp-content/uploads/2018/06/default-featured-image.png.jpg';
 </script>
