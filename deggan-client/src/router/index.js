@@ -3,6 +3,9 @@ import HomeView from '../views/HomeView.vue'
 import RegisterView from '@/views/RegisterView.vue'
 import LoginView from '@/views/LoginView.vue'
 import { useAuthStore } from '@/stores/auth'
+import MypostsView from '@/views/MypostsView.vue'
+import Swal from 'sweetalert2'
+
 
 
 const router = createRouter({
@@ -12,15 +15,12 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
-      meta: { showNavbar: true, requiresAuth: true },
+      meta: { showNavbar: true, requiresAuth: false },
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
+      path: '/myposts',
+      name: 'myposts',
+      component: MypostsView,
       meta: { showNavbar: true, requiresAuth: true },
     },
     {
@@ -43,6 +43,12 @@ router.beforeEach((to, from, next) => {
   const authStore = useAuthStore();
 
   if (to.meta.requiresAuth && !authStore.token) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'You need to login to access this page',
+    });
+
     next('/login'); 
   } else if (to.name === 'login' && authStore.token) {
     next('/'); 

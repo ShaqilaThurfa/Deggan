@@ -1,3 +1,20 @@
+<template>
+  <main>
+    <h1 class="text-md md:text-xl lg:text-2xl text-black font-bold flex justify-center py-5">
+      Today News!
+    </h1>
+    <div class="flex justify-center items-center lg:text-3xl h-screen" v-if="loading">
+      Loading... <span class="loading loading-dots loading-md"></span>
+    </div>
+    <div
+      v-else
+      class="mx-4 grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3 grid-auto-rows-[1fr] py-5 flex-grow place-items-center"
+    >
+      <NewsCard v-for="news in data" :key="news.id" :news="news" />
+    </div>
+  </main>
+</template>
+
 <script setup>
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
@@ -18,18 +35,3 @@ onMounted(async () => {
   }
 })
 </script>
-
-<template>
-  <main>
-    <h1 class="text-md md:text-xl lg:text-2xl text-black font-bold flex justify-center py-5">
-      Today News!
-    </h1>
-    <div v-if="loading">Loading...</div>
-    <div
-      v-else
-      class="mx-4 grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3 grid-auto-rows-[1fr] py-5 flex-grow place-items-center"
-    >
-      <NewsCard v-for="news in data" :key="news.id" :news="news" />
-    </div>
-  </main>
-</template>

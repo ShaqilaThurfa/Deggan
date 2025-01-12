@@ -7,7 +7,13 @@
       <h2 class="card-title">{{ news.title }}</h2>
       <p>{{ news.description }}</p>
       <div class="card-actions justify-end">
-        <button class="btn btn-primary">Read More</button>
+        <template v-if="isMyPostsPage">
+          <button class="btn btn-warning">Edit</button>
+          <button class="btn btn-error">Delete</button>
+        </template>
+        <template v-else>
+          <button class="btn btn-primary">Read More</button>
+        </template>
       </div>
     </div>
   </div>
@@ -18,6 +24,10 @@ defineProps({
   news: {
     type: Object,
     required: true,
+  },
+  isMyPostsPage: {
+    type: Boolean,
+    default: false, 
   },
 });
 
