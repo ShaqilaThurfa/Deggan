@@ -1,8 +1,8 @@
 <template>
   <div class="flex justify-center items-center py-8">
     <button
-      @click="modalRef.open()"
-      class="flex items-center gap-2 bg-black text-white px-4 py-2 rounded hover:bg-gray-500 focus:outline-none "
+      @click="router.push({ name: 'create' })"
+      class="flex items-center gap-2 bg-black text-white px-4 py-2 rounded hover:bg-gray-500 focus:outline-none"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -25,9 +25,8 @@
     <LoadingSpinner v-if="loading" />
 
     <p class="text-2xl font-bold text-center" v-else-if="message">{{ message }}</p>
-    <NewsCard v-else v-for="post in data" :key="post.id" :news="post" :isMyPostsPage="true" />
+    <NewsCard v-else v-for="post in data" :key="post.id" :news="post" :isMyPostsPage="true" class="mx-5" />
   </div>
-  <NewsModal ref="modalRef" />
 </template>
 
 <script setup>
@@ -36,26 +35,33 @@ import axios from 'axios'
 import { ref, onMounted } from 'vue'
 import apiConfig from '@/config/api.config'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
-import NewsModal from '@/components/NewsModal.vue'
-
-
+import { useRouter } from 'vue-router'
 
 const data = ref([])
 const loading = ref(true)
 const message = ref('')
-const modalRef = ref(null)
+const router = useRouter()
+const imageURL = import.meta.env.VITE_BASE_IMAGE_URL
 
 onMounted(async () => {
   try {
+    
     const response = await axios.get(`${apiConfig.baseURL}/myposts`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     })
+    const mappedPosts = response.data.map((post) => ({
+      ...post,
+      image_url: `${imageURL}/${post.image}`, 
+    }));
+
+    console.log(mappedPosts.map((post) => post.image_url));
+
     if (response.data.message) {
       message.value = response.data.message
     } else {
-      data.value = response.data
+      data.value = mappedPosts
     }
   } catch (error) {
     console.error(error)

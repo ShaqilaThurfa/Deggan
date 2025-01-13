@@ -5,12 +5,12 @@
     </div>
 
     <div class="navbar-end">
-      <router-link v-if="authStore.user" to="/myposts" class="btn btn-ghost text-white"
+      <router-link v-if="authStore.token" to="/myposts" class="btn btn-ghost text-white"
         >My Posts</router-link
       >
       <router-link
-        v-if="authStore.user"
-        to="/logout"
+        v-if="authStore.token"
+        to="/login"
         class="btn btn-ghost text-white"
         @click="handleLogout"
       >
@@ -22,7 +22,16 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
+
+const handleLogout = () => {
+  authStore.logout()
+}
+
+onMounted(() => {
+  authStore.initializeAuth();
+});
 </script>

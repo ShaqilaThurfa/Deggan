@@ -1,14 +1,14 @@
 <template>
   <div class="card bg-base-100 w-96 shadow-xl gap-3">
     <figure>
-      <img :src="news.imageUrl || defaultImage" :alt="news.title || 'No image available'" />
+      <img :src="news.image_url || defaultImage" :alt="news.title || 'No image available'" />
     </figure>
     <div class="card-body">
       <h2 class="card-title">{{ news.title }}</h2>
-      <p>{{ news.description }}</p>
+      <p>{{ news.content }}</p>
       <div class="card-actions justify-end">
         <template v-if="isMyPostsPage">
-          <button class="btn btn-warning">Edit</button>
+          <button @click="$emit('edit', news)" class="btn btn-warning">Edit</button>
           <button class="btn btn-error">Delete</button>
         </template>
         <template v-else>

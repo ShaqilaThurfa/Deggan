@@ -6,6 +6,8 @@ import { useAuthStore } from '@/stores/auth'
 import MypostsView from '@/views/MypostsView.vue'
 import Swal from 'sweetalert2'
 import DetailPostView from '@/views/DetailPostView.vue'
+import CreateNewsView from '@/views/CreateNewsView.vue'
+
 
 
 
@@ -41,6 +43,12 @@ const router = createRouter({
       name: 'detail',
       component: DetailPostView,
       meta: { showNavbar: true, requiresAuth: false },
+    },
+    {
+      path: '/create',
+      name: 'create',
+      component: CreateNewsView,
+      meta: { showNavbar: true, requiresAuth: true },
     },
 
   ],
