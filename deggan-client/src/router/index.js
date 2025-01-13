@@ -7,9 +7,7 @@ import MypostsView from '@/views/MypostsView.vue'
 import Swal from 'sweetalert2'
 import DetailPostView from '@/views/DetailPostView.vue'
 import CreateNewsView from '@/views/CreateNewsView.vue'
-
-
-
+import EditNewsView from '@/views/EditNewsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -50,26 +48,31 @@ const router = createRouter({
       component: CreateNewsView,
       meta: { showNavbar: true, requiresAuth: true },
     },
-
+    {
+      path: '/edit/:slug',
+      name: 'edit',
+      component: EditNewsView,
+      meta: { showNavbar: true, requiresAuth: true },
+    },
   ],
 })
 
 router.beforeEach((to, from, next) => {
-  const authStore = useAuthStore();
+  const authStore = useAuthStore()
 
   if (to.meta.requiresAuth && !authStore.token) {
     Swal.fire({
       icon: 'error',
       title: 'Oops...',
       text: 'You need to login to access this page',
-    });
+    })
 
-    next('/login'); 
+    next('/login')
   } else if (to.name === 'login' && authStore.token) {
-    next('/'); 
+    next('/')
   } else {
-    next(); 
+    next()
   }
-});
+})
 
 export default router

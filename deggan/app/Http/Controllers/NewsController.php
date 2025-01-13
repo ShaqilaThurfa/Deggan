@@ -59,34 +59,28 @@ class NewsController extends Controller
 
     public function update(Request $request, $id)
     {
-        $news = News::findOrfail($id);
+        $news = News::findOrFail($id);
 
         $this->authorize('update', $news);
 
-        $validatedData = $request->validate([
-            'title' => 'nullable|string|max:255',
-            'content' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        $validatedData = [
+            'title' => $request->input('title'),
+            'content' => $request->input('content'),
+        ];
 
         if ($request->hasFile('image')) {
             $image_path = storage_path('app/public/news/' . $news->image);
 
-            
             if ($news->image && file_exists($image_path)) {
                 unlink($image_path);
                 Storage::delete('public/news/' . $news->image);
             }
 
-            
             $image = $request->file('image');
             $image->storeAs('public/news', $image->hashName());
             $validatedData['image'] = $image->hashName();
         }
 
-        
-
-      
         $news->update([
             'title' => $validatedData['title'] ?? $news->title,
             'content' => $validatedData['content'] ?? $news->content,
@@ -95,6 +89,7 @@ class NewsController extends Controller
 
         return response()->json($news);
     }
+
 
     public function destroy($id)
     {

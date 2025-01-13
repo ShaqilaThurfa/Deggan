@@ -25,7 +25,13 @@
     <LoadingSpinner v-if="loading" />
 
     <p class="text-2xl font-bold text-center" v-else-if="message">{{ message }}</p>
-    <NewsCard v-else v-for="post in data" :key="post.id" :news="post" :isMyPostsPage="true" class="mx-5" />
+
+    <div
+      v-else
+      class="mx-4 grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3 auto-rows-fr py-5 place-items-center"
+    >
+      <NewsCard v-for="post in data" :key="post.id" :news="post" :isMyPostsPage="true" />
+    </div>
   </div>
 </template>
 
@@ -45,7 +51,6 @@ const imageURL = import.meta.env.VITE_BASE_IMAGE_URL
 
 onMounted(async () => {
   try {
-    
     const response = await axios.get(`${apiConfig.baseURL}/myposts`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -53,10 +58,10 @@ onMounted(async () => {
     })
     const mappedPosts = response.data.map((post) => ({
       ...post,
-      image_url: `${imageURL}/${post.image}`, 
-    }));
+      image_url: `${imageURL}/${post.image}`,
+    }))
 
-    console.log(mappedPosts.map((post) => post.image_url));
+    console.log(mappedPosts.map((post) => post.image_url))
 
     if (response.data.message) {
       message.value = response.data.message
