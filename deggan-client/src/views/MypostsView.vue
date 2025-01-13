@@ -30,7 +30,13 @@
       v-else
       class="mx-4 grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3 auto-rows-fr py-5 place-items-center"
     >
-      <NewsCard v-for="post in data" :key="post.id" :news="post" :isMyPostsPage="true" />
+      <NewsCard
+        v-for="post in data"
+        :key="post.id"
+        :news="post"
+        :isMyPostsPage="true"
+        @delete="deletePost"
+      />
     </div>
   </div>
 </template>
@@ -42,12 +48,39 @@ import { ref, onMounted } from 'vue'
 import apiConfig from '@/config/api.config'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import { useRouter } from 'vue-router'
+import Swal from 'sweetalert2'
 
 const data = ref([])
 const loading = ref(true)
 const message = ref('')
 const router = useRouter()
 const imageURL = import.meta.env.VITE_BASE_IMAGE_URL
+
+async function deletePost(id) {
+  try {
+    await axios.delete(`${apiConfig.baseURL}/news/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+    data.value = data.value.filter((post) => post.id !== id)
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Deleted!',
+      text: 'Your post has been deleted.',
+    })
+  } catch (error) {
+    console.error('Error deleting post:', error)
+
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'Failed to delete post.',
+    })
+  }
+}
+
 
 onMounted(async () => {
   try {

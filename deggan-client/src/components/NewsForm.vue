@@ -76,34 +76,6 @@ const title = ref(props.initialData?.title || '')
 const content = ref(props.initialData?.content || '')
 const imageBase64 = ref(props.initialData?.imageBase64 || '')
 
-// const handleImageUpload = (event) => {
-//   const file = event.target.files[0]
-//   if (!file) {
-//     Swal.fire({
-//       icon: 'error',
-//       title: 'Oops...',
-//       text: 'Please select an image file!',
-//     })
-//     return
-//   }
-
-//   if (!file.type.startsWith('image/')) {
-//     Swal.fire({
-//       icon: 'error',
-//       title: 'Invalid File',
-//       text: 'The selected file must be an image!',
-//     })
-//     return
-//   }
-
-//   const reader = new FileReader()
-//   reader.onload = () => {
-//     imageBase64.value = reader.result
-//   }
-
-//   imageBase64.value = file
-// }
-
 const handleImageUpload = (event) => {
   const file = event.target.files[0]
   if (!file) {
@@ -124,18 +96,26 @@ const handleImageUpload = (event) => {
     return
   }
 
-  // Reset imageBase64 before reading
+  if (file.size > 1024 * 1024 * 2) {
+    Swal.fire({
+      icon: 'error',
+      title: 'File Too Large',
+      text: 'The selected file must not exceed 2MB!',
+    })
+    return
+  }
+
   imageBase64.value = ''
 
   const reader = new FileReader()
   reader.onload = () => {
-    imageBase64.value = file // Save file for upload
-    previewImage.value = reader.result // Save base64 for preview
+    imageBase64.value = file
+    previewImage.value = reader.result
   }
   reader.readAsDataURL(file)
 }
 
-const previewImage = ref('') // Separate variable for base64 preview
+const previewImage = ref('') 
 
 const handleCreate = async () => {
   try {
