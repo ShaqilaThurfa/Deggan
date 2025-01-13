@@ -2,7 +2,7 @@
   <div class="card bg-base-100 w-96 shadow-xl gap-3 grid grid-cols-1">
     <figure>
       <img
-        :src="news.image_url || defaultImage"
+        :src="news.image_url ? news.image_url : defaultImage"
         :alt="news.title || 'No image available'"
         class="w-full h-48 object-cover"
       />
@@ -44,6 +44,7 @@ const router = useRouter()
 const emit = defineEmits(['delete'])
 
 function goToDetail(slug) {
+  console.log(defaultImage)
   router.push({ name: 'detail', params: { slug } })
 }
 

@@ -15,7 +15,9 @@ class NewsController extends Controller
         $news = News::all()->sortByDesc('created_at')->map(function ($item) {
             $item->content = substr($item->content, 0, 100) . '...';
             return $item;
-        });
+        })
+        ->values()
+        ->toArray();
 
         return response()->json($news);
     }
