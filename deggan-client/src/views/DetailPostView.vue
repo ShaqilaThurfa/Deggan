@@ -20,12 +20,12 @@
 </template>
 
 <script setup>
-import axios from 'axios'
+
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import apiConfig from '@/config/api.config'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import Swal from 'sweetalert2'
+import apiClient from '@/config/axios'
 
 const data = ref(null)
 const loading = ref(true)
@@ -35,7 +35,7 @@ const route = useRoute()
 onMounted(async () => {
   const slug = route.params.slug;
   try {
-    const response = await axios.get(`${apiConfig.baseURL}/news/${slug}`)
+    const response = await apiClient.get(`/news/${slug}`)
     data.value = response.data
   } catch (error) {
     let title = 'Error'

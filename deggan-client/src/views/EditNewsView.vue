@@ -9,9 +9,8 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import axios from 'axios';
-import apiConfig from '@/config/api.config';
 import NewsForm from '@/components/NewsForm.vue';
+import apiClient from '@/config/axios';
 
 const route = useRoute();
 const selectedPost = ref(null);
@@ -19,7 +18,7 @@ const selectedPost = ref(null);
 onMounted(async () => {
   try {
     const slug = route.params.slug; 
-    const response = await axios.get(`${apiConfig.baseURL}/news/${slug}`);
+    const response = await apiClient.get(`/news/${slug}`);
     selectedPost.value = response.data; 
     
   } catch (error) {

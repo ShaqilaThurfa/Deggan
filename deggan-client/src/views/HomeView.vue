@@ -14,12 +14,12 @@
 </template>
 
 <script setup>
-import axios from 'axios'
+
 import { ref, onMounted } from 'vue'
-import apiConfig from '@/config/api.config'
 import NewsCard from '@/components/NewsCard.vue'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import Swal from 'sweetalert2'
+import apiClient from '@/config/axios'
 
 
 const data = ref([])
@@ -28,7 +28,7 @@ const loading = ref(true)
 
 onMounted(async () => {
   try {
-    const response = await axios.get(`${apiConfig.baseURL}/news`)
+    const response = await apiClient.get(`/news`)
     data.value = response.data
   } catch (error) {
     let title = 'Error'

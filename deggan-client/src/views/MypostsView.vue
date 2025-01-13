@@ -43,12 +43,11 @@
 
 <script setup>
 import NewsCard from '@/components/NewsCard.vue'
-import axios from 'axios'
 import { ref, onMounted } from 'vue'
-import apiConfig from '@/config/api.config'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import { useRouter } from 'vue-router'
 import Swal from 'sweetalert2'
+import apiClient from '@/config/axios'
 
 const data = ref([])
 const loading = ref(true)
@@ -58,7 +57,7 @@ const imageURL = import.meta.env.VITE_BASE_IMAGE_URL
 
 async function deletePost(id) {
   try {
-    await axios.delete(`${apiConfig.baseURL}/news/${id}`, {
+    await apiClient.delete(`/news/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -84,7 +83,7 @@ async function deletePost(id) {
 
 onMounted(async () => {
   try {
-    const response = await axios.get(`${apiConfig.baseURL}/myposts`, {
+    const response = await apiClient.get(`/myposts`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },

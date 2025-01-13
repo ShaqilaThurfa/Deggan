@@ -20,7 +20,7 @@
     </label>
     <button 
       class="btn btn-outline rounded-lg w-full max-w-sm p-2 mt-3" 
-      @click="register"
+      @click="login"
     >
       Login
     </button>
@@ -34,20 +34,19 @@
 
 <script setup>
 import { ref } from 'vue'
-import axios from 'axios'
-import apiConfig from '@/config/api.config'
 import Swal from 'sweetalert2'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import apiClient from '@/config/axios'
 
 const email = ref('')
 const password = ref('')
 const router = useRouter()
 const authStore = useAuthStore()
 
-const register = async () => {
+const login = async () => {
   try {
-    const response = await axios.post(`${apiConfig.baseURL}/login`, {
+    const response = await apiClient.post(`login`, {
       email: email.value,
       password: password.value,
     })
@@ -56,7 +55,7 @@ const register = async () => {
 
     Swal.fire({
       title: 'Login Successful',
-      text: 'You have successfully registered',
+      text: 'You have successfully login',
       icon: 'success',
     })
 

@@ -50,8 +50,7 @@
 import { useRouter } from 'vue-router'
 import { ref, watch } from 'vue'
 import Swal from 'sweetalert2'
-import axios from 'axios'
-import apiConfig from '@/config/api.config'
+import apiClient from '@/config/axios'
 const imageURL = import.meta.env.VITE_BASE_IMAGE_URL
 
 const props = defineProps({
@@ -130,7 +129,7 @@ const handleCreate = async () => {
     formData.append('content', content.value)
     formData.append('image', imageBase64.value)
 
-    await axios.post(`${apiConfig.baseURL}/news`, formData, {
+    await apiClient.post(`/news`, formData, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'multipart/form-data',
@@ -169,7 +168,7 @@ const handleUpdate = async () => {
       formData.append('image', imageBase64.value)
     }
 
-    await axios.post(`${apiConfig.baseURL}/news/${props.initialData.id}`, formData, {
+    await apiClient.post(`/news/${props.initialData.id}`, formData, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'multipart/form-data',

@@ -42,11 +42,10 @@
 
 <script setup>
 import { ref } from 'vue'
-import axios from 'axios'
-import apiConfig from '@/config/api.config'
 import Swal from 'sweetalert2'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
+import apiClient from '@/config/axios'
 
 const name = ref('')
 const email = ref('')
@@ -56,7 +55,7 @@ const router = useRouter()
 
 const register = async () => {
   try {
-    const response = await axios.post(`${apiConfig.baseURL}/register`, {
+    const response = await apiClient.post(`/register`, {
       name: name.value,
       email: email.value,
       password: password.value,
