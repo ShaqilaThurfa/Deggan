@@ -33,13 +33,16 @@ export const useAuthStore = defineStore('auth', {
     initializeAuth() {
       
       const storedToken = localStorage.getItem('token');
+      const storedUser = localStorage.getItem('user');
       const storedRefreshToken = localStorage.getItem('refreshToken');
       if (storedToken) {
         this.token = storedToken; 
         this.refreshToken = storedRefreshToken;
+        this.user = JSON.parse(storedUser);
       } else {
         this.token = null; 
         this.refreshToken = null; 
+        this.user = null;
       }
     },
     async refreshToken() {

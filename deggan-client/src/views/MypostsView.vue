@@ -101,7 +101,11 @@ onMounted(async () => {
       data.value = mappedPosts
     }
   } catch (error) {
-    console.error(error)
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: error.message || 'Failed to fetch posts.',
+    })
   } finally {
     loading.value = false
   }

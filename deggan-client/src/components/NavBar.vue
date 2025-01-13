@@ -5,6 +5,14 @@
     </div>
 
     <div class="navbar-end">
+      <router-link
+        v-if="authStore.token && authStore.user?.role === 'superAdmin'"
+        to="/admin"
+        class="btn btn-ghost text-white"
+      >
+        Admin Page
+      </router-link>
+
       <router-link v-if="authStore.token" to="/myposts" class="btn btn-ghost text-white"
         >My Posts</router-link
       >
